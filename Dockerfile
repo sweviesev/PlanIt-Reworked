@@ -26,6 +26,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Create necessary directories for supervisor
+RUN mkdir -p /var/log/supervisor && \
+    mkdir -p /run/nginx && \
+    chown -R www-data:www-data /var/log/supervisor && \
+    chmod -R 755 /var/log/supervisor
+
 # Copy existing application directory
 COPY . .
 
