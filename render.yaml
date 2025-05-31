@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: planner-app
+    env: php
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan key:generate
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+      npm install
+      npm run build
+    startCommand: |
+      php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      # App Configuration
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_LEVEL
+        value: error
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        generateValue: true
+      
+      # Database Configuration
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+      # API Keys
+      - key: TODOIST_API_KEY
+        sync: false
+      - key: OPENWEATHERMAP_API_KEY
+        sync: false
+      - key: CALENDARIFIC_API_KEY
+        sync: false
+      - key: TIMEZONEDB_API_KEY
+        sync: false
+      - key: FAVQS_API_KEY
+        sync: false
+
+      # CORS Configuration
+      - key: FRONTEND_URL
+        sync: false
+      - key: SANCTUM_STATEFUL_DOMAINS
+        sync: false 
