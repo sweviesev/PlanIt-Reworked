@@ -1,17 +1,7 @@
 services:
   - type: web
     name: planner-app
-    env: php
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan key:generate
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-      npm install
-      npm run build
-    startCommand: |
-      php artisan serve --host=0.0.0.0 --port=$PORT
+    runtime: docker
     envVars:
       # App Configuration
       - key: APP_ENV
